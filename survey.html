@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MX.AI - Ankieta Kalibracyjna</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        .length-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; }
+        .length-option {
+            background: var(--card-glass); border: 1px solid var(--border-glass); padding: 15px;
+            border-radius: 14px; text-align: center; cursor: pointer; transition: 0.3s;
+        }
+        .length-option:hover { border-color: rgba(255,255,255,0.3); }
+        .length-option.selected { border-color: var(--primary); background: rgba(99, 102, 241, 0.1); box-shadow: 0 0 15px var(--primary-glow); }
+        .length-option h4 { font-size: 2rem; font-family: 'Anton', sans-serif; margin-bottom: 5px; color: #fff; }
+        .length-option p { font-size: 0.8rem; color: var(--text-dim); }
+
+        /* Loader Styles */
+        #view-loading {
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            min-height: 100vh; text-align: center; position: fixed; top: 0; left: 0; width: 100%; background: var(--bg); z-index: 5000;
+        }
+        .loader-text { font-family: 'Anton', sans-serif; font-size: 4rem; color: #fff; letter-spacing: 2px; }
+        .loader-sub { color: var(--text-dim); margin-bottom: 30px; font-size: 1.2rem; }
+        .progress-line { width: 300px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">MX<span>.AI</span></a>
+        <div class="nav-links">
+            <a href="index.html">Strona Główna</a>
+            <a href="survey.html" style="color: #fff;">Trening AI</a>
+            <a href="dashboard.html" class="btn-nav">Twój Plan</a>
+        </div>
+    </nav>
+
+    <div class="container" id="view-setup">
+        <div class="glass-panel">
+            <h2 class="section-title">Pokaż co potrafisz.</h2>
+            <p style="color: var(--text-dim); margin-bottom: 30px; line-height: 1.5;">Zaznacz brutalnie szczerze swoje aktualne umiejętności oraz parametry fizyczne. Wybierz odpowiednią intensywność.</p>
+            
+            <div style="margin-bottom: 40px;">
+                <h3 style="font-family: 'Anton', sans-serif; font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--text-dim);">0. PARAMETRY JEŹDŹCA I SPRZĘTU</h3>
+                
+                <div class="input-group">
+                    <label class="input-label">Wiek (lata)</label>
+                    <input type="number" id="inp-age" class="form-input" min="10" max="80" value="20">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Wzrost (cm)</label>
+                    <input type="number" id="inp-height" class="form-input" min="140" max="220" value="175">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Poziom Zaawansowania w terenie</label>
+                    <input type="text" id="inp-level" class="form-input" placeholder="np. Nowicjusz, Amator, Zaawansowany...">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Jaki masz motocykl? (Marka i Model)</label>
+                    <input type="text" id="inp-bike" class="form-input" placeholder="np. Barton NXT 125 4T, KTM 250 EXC...">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+                <h3 style="font-family: 'Anton', sans-serif; font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--text-dim);">1. PODSTAWY JAZDY I PRĘDKOŚĆ</h3>
+                <div class="skill-grid">
+                    <div class="skill-option" onclick="toggleSkill(this, 'speed')">
+                        <div class="check-box"></div>
+                        <div class="skill-text">
+                            <h3>Szybka i agresywna jazda</h3>
+                            <p>Potrafię odkręcić manetkę do końca i zapanować nad motocyklem crossowym.</p>
+                        </div>
+                    </div>
+                    <div class="skill-option" onclick="toggleSkill(this, 'standing')">
+                        <div class="check-box"></div>
+                        <div class="skill-text">
+                            <h3>Jazda na stojąco (Balans)</h3>
+                            <p>Potrafię pokonywać dziury na stojąco, używając nóg jako amortyzatorów.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+                <h3 style="font-family: 'Anton', sans-serif; font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--text-dim);">2. MECHANIKA MOTOCYKLA</h3>
+                <div class="skill-grid">
+                    <div class="skill-option" onclick="toggleSkill(this, 'start')">
+                        <div class="check-box"></div>
+                        <div class="skill-text">
+                            <h3>Agresywny Start (Holeshot)</h3>
+                            <p>Znam punkt tarcia sprzęgła. Potrafię strzelić ze sprzęgła ruszając jak pocisk.</p>
+                        </div>
+                    </div>
+                    <div class="skill-option" onclick="toggleSkill(this, 'brake')">
+                        <div class="check-box"></div>
+                        <div class="skill-text">
+                            <h3>Tylny Hamulec (Pamięć mięśniowa)</h3>
+                            <p>Odruchowo wciskam tylny hamulec, gdy tracę kontrolę.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+                <h3 style="font-family: 'Anton', sans-serif; font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 20px; color: var(--text-dim);">3. DŁUGOŚĆ I INTENSYWNOŚĆ PROGRAMU</h3>
+                <div class="length-grid">
+                    <div class="length-option selected skill-option length" onclick="setLength(5, this)">
+                        <h4>5</h4><p>KROKÓW<br>(Max 1/dzień)</p>
+                    </div>
+                    <div class="length-option skill-option length" onclick="setLength(10, this)">
+                        <h4>10</h4><p>KROKÓW<br>(Max 2/dzień)</p>
+                    </div>
+                    <div class="length-option skill-option length" onclick="setLength(15, this)">
+                        <h4>15</h4><p>KROKÓW<br>(Max 3/dzień)</p>
+                    </div>
+                    <div class="length-option skill-option length" onclick="setLength(20, this)">
+                        <h4>20</h4><p>KROKÓW<br>(Max 4/dzień)</p>
+                    </div>
+                    <div class="length-option skill-option length" onclick="setLength(25, this)">
+                        <h4>25</h4><p>KROKÓW<br>(Max 5/dzień)</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="submit-btn" onclick="generateAIPlan()">ANALIZUJ MÓJ PROFIL</button>
+        </div>
+    </div>
+
+    <!-- AI LOADING SCREEN -->
+    <div id="view-loading">
+        <div class="loader-text" id="load-txt">OBLICZANIE...</div>
+        <div class="loader-sub" id="load-sub">Generowanie rygorystycznego planu</div>
+        <div class="progress-line"><div class="progress-fill" id="load-fill"></div></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

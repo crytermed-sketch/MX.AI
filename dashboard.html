@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MX.AI - Twój Plan</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">MX<span>.AI</span></a>
+        <div class="nav-links">
+            <a href="index.html">Strona Główna</a>
+            <a href="survey.html">Trening AI</a>
+            <a href="dashboard.html" class="btn-nav" style="color:#fff; background:var(--primary); box-shadow:0 0 15px var(--primary-glow);">Twój Plan</a>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px;">
+        <div class="dash-header">
+            <h1>TWÓJ PROGRAM</h1>
+            <button onclick="resetProgress()" class="btn-nav" style="background: transparent; border: 1px solid var(--danger); color: var(--danger) !important; padding: 10px 20px;">RESETUJ PLAN</button>
+        </div>
+        
+        <div class="status-panel">
+            <div class="rule" id="ui-rule">LIMIT: 1 ZADANIE NA DZIEŃ</div>
+            <div class="progress-txt" id="ui-progress">Dzisiaj ukończono: 0/1</div>
+        </div>
+
+        <div class="plan-grid" id="plan-grid"></div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="lesson-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLessonModal()">×</button>
+            <div class="modal-title" id="lm-title">Tytuł</div>
+            <div class="modal-body" id="lm-body"></div>
+            <button class="submit-btn" style="margin-top: 30px;" onclick="confirmLesson()">ZALICZYŁEM TO</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Render the plan on load
+        window.onload = () => {
+            renderPlan();
+        };
+    </script>
+</body>
+</html>

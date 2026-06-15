@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MX.AI - Landing Page</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">MX<span>.AI</span></a>
+        
+        <div class="lang-switcher" style="display: flex; gap: 10px; margin-left: auto; margin-right: 30px;">
+            <button class="lang-btn active" onclick="changeLang('pl')" id="lang-pl" style="background:transparent; color:#fff; border:1px solid var(--border-glass); padding:5px 10px; border-radius:8px; cursor:pointer;">PL</button>
+            <button class="lang-btn" onclick="changeLang('en')" id="lang-en" style="background:transparent; color:#fff; border:1px solid var(--border-glass); padding:5px 10px; border-radius:8px; cursor:pointer;">EN</button>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" data-t="navHome">Strona Główna</a>
+            <a href="survey.html" data-t="navSetup">Trening AI</a>
+            <a href="dashboard.html" class="btn-nav" style="color:#fff; background:var(--primary); box-shadow:0 0 15px var(--primary-glow);" data-t="navPlan">Twój Plan</a>
+        </div>
+    </nav>
+
+    <div class="container" style="justify-content: center;">
+        <section class="hero">
+            <h1 data-t="heroTitle">Zbuduj<br>Dominację.</h1>
+            <p data-t="heroDesc">Sztuczna inteligencja przeanalizuje Twoje błędy i ułoży rygorystyczny program treningowy dopasowany do Twojego dirt bike'a.</p>
+            <a href="survey.html" class="hero-btn" data-t="heroBtn">Rozpocznij Kalibrację AI →</a>
+        </section>
+    </div>
+
+    <footer>
+        <h2 style="font-family: 'Anton', sans-serif; font-size: 2rem; color: #fff; margin-bottom: 20px;" data-t="portfolioTitle">MOJE PORTFOLIO</h2>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <a href="survey.html" class="portfolio-item" data-t="portfolioItem1">Trener Wheelie AI</a>
+            <div class="portfolio-item" onclick="showToast('Wait project has start Soon..')" data-t="portfolioItem2">Soon...</div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
